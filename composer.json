@@ -1,0 +1,25 @@
+{
+    "name": "marcus/calendar_feed",
+    "description": "REDCap external module to expose project calendars as iCal feeds",
+    "version" : "0.0.1",
+    "authors": [
+        {
+            "name": "Jason Rightmyer",
+            "email": "jasonrightmyer@hsl.harvard.edu"
+        }
+    ],
+    "require": {
+        "twig/twig": "^3.0",
+        "symfony/http-foundation": "^5.1",
+        "league/uri": "^6.2",
+        "league/uri-components": "^2.2",
+        "clancats/hydrahon": "^1.1",
+        "twig/string-extra": "^3.0",
+        "symfony/twig-bridge": "^5.1",
+        "eluceo/ical": "^0.16.0",
+        "ramsey/uuid": "^4.1"
+    },
+    "autoload": {
+        "psr-4": { "": "app/src/" }
+    }
+}

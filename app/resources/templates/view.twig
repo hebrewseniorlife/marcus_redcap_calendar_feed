@@ -1,0 +1,123 @@
+{% extends "base.twig" %}
+
+{% block body %}
+
+<div class="row">
+  <div class="col-md-9">
+  <form action="{{paths.module | raw}}" method="get">
+    <input type="hidden" name="page" value="index"/>
+    <input type="hidden" name="action" value="view"/>
+    <input type="hidden" name="prefix" value="{{ module.prefix }}"/>
+    <input type="hidden" name="pid" value="{{ module.pid }}"/>
+    <input type="hidden" name="feed" value="{{ feed }}"/>
+
+    <div class="form-row">
+      <div class="col">
+        <div class=" mb-2 mr-sm-2">
+            <input type="text" class="form-control form-control-sm" id="records" 
+                    name="records" placeholder="ID(s)" value="{{ filter.records|join(',') }}">
+        </div>        
+      </div>
+
+      {% if project.arms %}
+      <div class="col">
+          <div class="mb-2 mr-sm-2">
+            <select class="form-control form-control-sm" id="arms[]" name="arms[]">
+              <option value="">All Arms</option>
+              {% for num, name in project.arms %}
+                  <option 
+                    value="{{ num }}"
+                    {{ num == filter.arms[0] ? 'selected' : '' }}>{{ name }}</option>
+              {% endfor %}         
+            </select>
+          </div>
+      </div>              
+      {% endif %}
+      
+      <div class="col">
+        <div class=" mb-2 mr-sm-2">
+          <select class="form-control form-control-sm" id="events[]" name="events[]">
+            <option value="">All Events</option>
+            {% if project.events %}
+                {% for event in project.events %}
+                    <option 
+                      value="{{ event.event_id }}"
+                      {{ event.event_id == filter.events[0] ? 'selected' : '' }}>{{ event.name }}</option>
+                {% endfor %}         
+            {% endif %}
+          </select>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class=" mb-2 mr-sm-2">
+          <select class="form-control form-control-sm" id="status" name="status">
+            <option value="-1">Any Status</option>
+            {% if project.statuses %}
+                {% for status, name in project.statuses %}
+                    <option 
+                      value="{{status}}"
+                     {{ status == filter.status ? 'selected' : '' }}>{{ name }}</option>
+                {% endfor %}         
+            {% endif %}
+          </select>
+        </div>
+      </div>      
+
+      <div class="col">
+        <div class=" mb-2 mr-sm-2">
+          <select class="form-control form-control-sm" id="month" name="month">
+            <option value="">All Months</option>
+                {% for key, value in months %}
+                    <option value="{{key}}"
+                     {{ key == filter.month ? 'selected' : '' }}>({{ key }}) - {{ value }}</option>
+                {% endfor %}   
+          </select>
+        </div>
+      </div>  
+
+      <div class="col">
+        <div class=" mb-2 mr-sm-2">
+          <select class="form-control form-control-sm" id="year" name="year">
+            <option value="">All Years</option>
+                {% for key, value in years %}
+                    <option value="{{value}}"
+                    {{ value == filter.year ? 'selected' : '' }}>{{ value }}</option>
+                {% endfor %}   
+          </select>
+        </div>
+      </div>          
+
+      <div class="col">
+        <div class=" mb-2 mr-sm-2">
+          <button type="submit" class="btn btn-primary btn-sm">Filter</button>
+        </div>
+      </div>    
+
+
+    </div>
+
+  </form>
+  </div>      
+  {# <div class="col-md-1">
+    <div class="btn-group" role="group" aria-label="Views">
+      <a class="btn btn-secondary text-white mr-1" href="{{ links.csv }}" title="Table View" role="button"><i class="fas fa-table"></i></a>
+      <a class="btn btn-secondary text-white" href="{{ links.ical }}" title="Calendar View" role="button"><i class="far fa-calendar-alt"></i></a>
+    </div>       
+  </div> #}
+  <div class="col-md-1">
+    <div class="btn-group" role="group" aria-label="Exports">
+      <a class="btn btn-secondary text-white mr-1" href="{{ links.csv }}" title="CSV" role="button"><i class="fas fa-file-csv"></i></a>
+      <a class="btn btn-secondary text-white mr-1" href="{{ links.ical }}" target="new" title="iCal" role="button"><i class="far fa-calendar-alt"></i></a>
+      <a class="btn btn-secondary text-white" href="{{ links.json }}" target="new" title="JSON" role="button"><i class="far fa-file-code"></i></i></a>
+    </div>  
+  </div>
+</div>
+
+{% include "calendar.twig" %}
+
+{# <pre>
+    {{ dump(filter) }}
+</pre> #}
+
+{% endblock %}

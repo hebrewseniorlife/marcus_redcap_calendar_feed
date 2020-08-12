@@ -1,0 +1,153 @@
+{
+	"name": "Marcus REDCap Calendar Feed",
+
+	"namespace": "Marcus\\CalendarFeed\\ExternalModule",
+
+	"description": "This module allows individual projects to expose study calendars as an iCal feed",
+
+	"documentation": "README.md",
+
+	"framework-version" : 5,
+
+	"authors": [
+		{
+			"name": "Jason Rightmyer",
+			"email": "jasonrightmyer@hsl.harvard.edu",
+			"institution": "Marcus Institute for Aging Research"
+		}
+	],
+
+	"permissions": [],
+	
+	"enable-every-page-hooks-on-system-pages": false,	
+
+	"links": {
+		"project": [
+			{
+				"name": "Calendar Feed",
+				"icon": "fas fa-calendar",
+				"url": "index.php"
+			}								
+		],
+		"control-center": [ ]
+	},
+
+	"no-auth-pages": [
+		"public"
+	],
+
+	"project-settings": [
+		{
+			"key": "calendar-feeds",
+			"name": "Calendar Feeds",
+			"required": true,
+			"type": "sub_settings",
+			"repeatable":true,
+			"sub_settings":[
+				{
+					"key": "feed-key",
+					"name": "Unique Key (used in URL)",
+					"required": true,
+					"type": "text"
+					},
+				{
+					"key": "feed-name",
+					"name": "Common Name",
+					"required": true,
+					"type": "text"
+				},
+				{
+					"key": "feed-title-template",
+					"name": "Title Field: Twig Temlate",
+					"required": true,
+					"default" : "{{ record }} @ {{ event_descrip }}",
+					"type": "text"
+				},
+				{
+					"key": "feed-description-template",
+					"name": "Description Field: Twig Temlate",
+					"required": false,
+					"default" : "Record: {{ record }}, Event: {{ event_descrip }}, Forms: {{ forms|join(', ')}}{{ notes|length > 0 ? ', Notes: ' ~ notes : '' }}",
+					"type": "textarea"
+				},
+				{
+					"key": "feed-location-template",
+					"name": "Location Field: Twig Temlate",
+					"required": false,
+					"default" : "N/A",
+					"type": "text"
+				}
+			]
+		},
+		{
+			"key": "calendar-links",
+			"name": "Public Feed Links Accessible to Public or Restricted Users",
+			"required": true,
+			"type": "sub_settings",
+			"repeatable":true,
+			"sub_settings":[
+			   {
+				  "key": "link-key",
+				  "name": "Unique Key (used in URL)",
+				  "required": true,
+				  "type": "text"
+			   },
+			   {
+				  "key": "link-name",
+				  "name": "Common Name",
+				  "required": true,
+				  "type": "text"
+			   },
+			   {
+				  "key": "link-params",
+				  "name": "Querystring Paramaters",
+				  "required": true,
+				  "type": "text"
+			   },
+			   {
+				  "key": "link-access-level",
+				  "name": "Access Level",
+				  "required": true,
+				  "type": "dropdown",
+				  "choices" : [
+					  {
+						  "name" : "Public",
+						  "value" : "public"
+					  },
+					  {
+						  "name" : "Private",
+						  "value" : "private"
+					  }
+				  ]
+			   },
+			   {
+				  "key": "link-enabled",
+				  "name": "Is Enabled",
+				  "required": true,
+				  "type": "dropdown",
+				  "choices" : [
+					  {
+						  "name" : "Yes",
+						  "value" : true
+					  },
+					  {
+						  "name" : "No",
+						  "value" : false
+					  }
+				  ]
+			   }			   
+			]
+		 }
+	],
+
+	"system-settings": [],
+
+	"crons": [],
+
+	"compatibility": {
+		"php-version-min": "7.2.0",
+		"php-version-max": "",
+		"redcap-version-min": "10.0.1",
+		"redcap-version-max": ""
+	}
+}

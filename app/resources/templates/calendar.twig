@@ -1,0 +1,50 @@
+{% if calendar.items %}
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Record</th>
+          {% if project.arms %}
+            <th scope="col">Arm</th>
+          {% endif %}
+          <th scope="col">Event</th>
+          <th scope="col">Status</th>
+          <th scope="col">Date / Time</th>
+          <th scope="col">Forms</th>
+          <th scope="col">Notes</th>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Location</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for item in calendar.items %}
+        <tr>
+          <th scope="row">{{ item.cal_id }}</th>
+          <td>{{ item.record }}</td>
+          {% if project.arms %}
+            <td>{{ item.arm_name }}</td>
+          {% endif %}          
+          <td>{{ item.event_descrip }}</td>
+          <td>{{ item.event_status_name }}</td>
+          <td>{{ item.event_date }}@{{ item.event_time }}</td>
+          <td>{{ item.forms|join(', ') }}</td>
+          <td>{{ item.notes|u.truncate(50, '...') }}</td>
+          <td>{{ item.title }}</td>
+          <td>{{ item.description }}</td>
+          <td>{{ item.location }}</td>                              
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+{% else %}
+  <div class="row">
+    <div class="col-md-8">
+      No calendar events found.
+    </div>
+  </div>
+{% endif %}

@@ -1,0 +1,63 @@
+{% set publicPath = paths.public | split('?') | first %}
+
+<link rel="stylesheet" type="text/css" href="{{ publicPath }}/css/callout.css" media="screen,print">
+
+
+<div class="row">
+  <div class="col-md-8">
+	{% block title %}
+		<h1>Calendar Feed</h1>
+	{% endblock %}
+  </div>
+  <div class="col-md-2">
+	<div class="input-group input-group-sm">
+		<div class="input-group-prepend">
+			<span class="input-group-text">Feeds:</span>
+		</div>
+		<select class="form-control" id="feeds" name="feeds" onchange="window.location = this.value">
+          {% for item in project.feeds %}
+		  	<option value="{{ item.url }}"
+				{{ item.key == feed ? "selected" : "" }}>{{ item.name }}</option>
+          {% endfor %}    		
+		</select>	
+	</div>  
+  </div>
+  <div class="col-md-2">
+		<div class="btn-group">
+		<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			Public Links
+		</button>
+		<ul class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left">
+			{% for item in project.links %}
+				{% set url = item.url|default('#') %}
+
+			<li class="dropdown-item">
+				<span style="font-size:.8em">{{ item.name }} -</span>
+				<a href="{{url}}" class="btn" target="new"><i class="fas fa-external-link-alt"></i></a> |
+				<a href="#" class="btn clipboard" data-clipboard-text="{{url}}"><i class="far fa-copy"></i></a>
+				
+			</li>
+			{% endfor %}    		
+  		</ul>
+		</div>
+  </div>  
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+	<div id="message" class="alert alert-danger hide" role="alert">
+		<span id="message-text">Message Placeholder</span>
+	</div>  
+  </div>
+</div>
+
+{% block body %}{% endblock %}
+
+<script src="{{ publicPath }}/scripts/clipboard.min.js"></script>
+<script>
+$( document ).ready(function() {
+    new ClipboardJS('.clipboard');
+});
+</script>
+<script src="{{ publicPath }}/scripts/marcus-calendar-feed.js"></script>
+
