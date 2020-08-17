@@ -4,30 +4,31 @@
 require_once(__DIR__."/app/bootstrap.php");
 
 use Controllers\ApiController as ApiController;
-
+use REDCap as REDCap;
 use Symfony\Component\HttpFoundation\Request as Request;
 use Symfony\Component\HttpFoundation\Response as Response;
 
 $request  = Request::createFromGlobals();
 $response = new Response();
 
-$controller = new ApiController($module);
-
-if ($request->get("key") != null){
-  $response = $controller->export($request, $response);
+// This externa module is designed to work only on longitudinal projects..
+if (REDCap::isLongitudinal()){
+  $controller = new ApiController($module);
+  if ($request->get("key") != null){
+    $response = $controller->export($request, $response);
+  }
+  else{
+    $response->setContent('Key not specified.'); 
+    $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+  }
 }
 else{
-  $response->setContent('Key not specified'); 
+  $response->setContent('Calendar feeds are supported on longitudinal projects only.'); 
   $response->setStatusCode(Response::HTTP_BAD_REQUEST);
 }
 
-
-
 /*
-  Future Note:  Should use Response->Send method to reply to the browser.  
-  
-  Section required as is because REDCap header and footer PHP file do not 
-  properly buffer content.  As a result, the require_once must be used. 
+  Sent the HTTP reponse.  No REDCap header/footer expected in public feed response.
 */
 
 $response->prepare($request);

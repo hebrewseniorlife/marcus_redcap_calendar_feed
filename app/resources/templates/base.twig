@@ -31,12 +31,15 @@
 			{% for item in project.links %}
 				{% set url = item.url|default('#') %}
 
-			<li class="dropdown-item">
-				<span style="font-size:.8em">{{ item.name }} -</span>
-				<a href="{{url}}" class="btn" target="new"><i class="fas fa-external-link-alt"></i></a> |
-				<a href="#" class="btn clipboard" data-clipboard-text="{{url}}"><i class="far fa-copy"></i></a>
-				
-			</li>
+				<li class="dropdown-item">
+					<span style="font-size:.8em">{{ item.name }} -</span>
+					<a href="{{url}}" class="btn" target="new"><i class="fas fa-external-link-alt"></i></a> |
+					<a href="#" class="btn clipboard" data-clipboard-text="{{url}}"><i class="far fa-copy"></i></a>
+				</li>
+			{% else %}
+				<li class="dropdown-item">
+					~ No links defined ~
+				</li>        
 			{% endfor %}    		
   		</ul>
 		</div>

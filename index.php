@@ -3,25 +3,34 @@
 require_once(__DIR__."/app/bootstrap.php");
 
 use Controllers\AppController as AppController;
-
+use REDCap as REDCap;
 use Symfony\Component\HttpFoundation\Request as Request;
 use Symfony\Component\HttpFoundation\Response as Response;
 
 $request  = Request::createFromGlobals();
 $response = new Response();
 
-$chromeless = ($_REQUEST["chromeless"]);
-$controller = new AppController($module);
 
-switch($_REQUEST["action"]){
-    case 'export':
-        $chromeless = true;
-        $response   = $controller->export($request, $response);
-    break;
-    case 'view':
-    default:
-        $response = $controller->view($request, $response);
-    break;                
+$chromeless = $request->query->getBoolean("chromeless", false);
+
+// This externa module is designed to work only on longitudinal projects..
+if (REDCap::isLongitudinal()){
+    // Initialize the controller
+    $controller = new AppController($module);   
+    // Based on the action requested, perform the task...
+    switch($request->get("action")){
+        case 'export':
+            $chromeless = true;
+            $response   = $controller->export($request, $response);
+        break;
+        case 'view':
+        default:
+            $response = $controller->view($request, $response);
+        break;                
+    }
+}    
+else{
+    $response->setContent("Calendar feeds are supported on longitudinal projects only.");
 }
 
 /*
