@@ -76,7 +76,8 @@ class ProjectService {
 
     function getEventStatuses() {
         return array(
-            "0" => "Due Date"
+            null => "Not Specified"
+            , "0" => "Due Date"
             , "1" => "Scheduled"
             , "2" => "Confirmed"
             , "3" => "Cancelled"

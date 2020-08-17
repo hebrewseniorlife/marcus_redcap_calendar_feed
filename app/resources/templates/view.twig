@@ -57,7 +57,7 @@
                 {% for status, name in project.statuses %}
                     <option 
                       value="{{status}}"
-                     {{ status == filter.status ? 'selected' : '' }}>{{ name }}</option>
+                     {{ status == filter.status ~ ''  ? 'selected' : '' }}>{{ name }}</option>
                 {% endfor %}         
             {% endif %}
           </select>

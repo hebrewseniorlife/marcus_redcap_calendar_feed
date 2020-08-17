@@ -30,7 +30,7 @@ class CalendarFilter {
     // }
     
     
-    public function __construct(array $records, array $arms, array $events, int $status = -1, int $year = -1, int $month = -1){
+    public function __construct(array $records, array $arms, array $events, ? int $status = -1, int $year = -1, int $month = -1){
         if (isset($records) && count($records) > 0){
             $this->records = $records;
         }
@@ -43,7 +43,7 @@ class CalendarFilter {
             $this->events = $events;
         }
 
-        if ($status >= 0 && $status <= 4){
+        if ($status == null || ($status >= -1 && $status <= 4)){
             $this->status = $status;
         }
     

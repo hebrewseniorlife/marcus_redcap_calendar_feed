@@ -106,7 +106,15 @@ class ModelFactory {
         }
         $events = array_filter($events);
         
-        $status     = (preg_match('/^\d+$/', $params["status"])) ? intval($params["status"]) : -1;
+
+        $status = -1;
+        if (preg_match('/^\d+$/', $params["status"])){
+            $status = intval($params["status"]);
+        }
+        elseif (isset($params["status"]) && $params["status"] == ""){
+            $status = null;
+        }
+
         $month      = (preg_match('/^\d+$/', $params["month"])) ? intval($params["month"]) : -1;
         $year       = (preg_match('/^\d+$/', $params["year"])) ? intval($params["year"]) : -1;
 

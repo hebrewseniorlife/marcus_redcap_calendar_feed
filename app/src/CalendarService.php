@@ -54,10 +54,13 @@ class CalendarService {
                 $query->where('c.event_id', $filter->events[0]);
     		}
     
-    		if ($filter->status >= 0){
+            if ($filter->status === null){
+                $query->whereNull('c.event_status');
+            }
+    		elseif ($filter->status >= 0){
                 $query->where('c.event_status', $filter->status);
     		}
-    		
+            
     		if ($filter->year != null){
                 $query->where(new Func('year', 'c.event_date'), $filter->year);
     		}
@@ -88,6 +91,7 @@ class CalendarService {
     function getCalendarData($query, $queryString, $queryParameters) : array      
     {
         $data = [];
+        
         $results = $this->module->query($queryString, $queryParameters);
         if ($results->num_rows > 0){
             while($item = $results->fetch_object('Model\\CalendarItem')){
@@ -106,15 +110,18 @@ class CalendarService {
             // Get the the various calendar statuses and the correspoinding feed (default)
             $statuses = $request->project->statuses;
             $feed     = $request->project->getFeed($request->feed);  
-       
+            
             // For each of the calendar items
             foreach($calendar->getItems() as $item){
                 // Assign the status name (Due Date, Completed, etc.)
                 $item->event_status_name = $statuses[$item->event_status];
-                
-                // Get the form names associated with the event.
-                $forms = $this->getEventForms($item->event_id);
-                $item->forms = array_column($forms, 'form_name');
+
+                // If the event ID is specified (not an ad-hoc calendar item)
+                if ($item->event_id > 0){
+                    // Get the form names associated with the event.
+                    $forms = $this->getEventForms($item->event_id);
+                    $item->forms = array_column($forms, 'form_name');
+                }
 
                 // Format the title, description, etc.
                 $item->title        = TemplateEngine::renderTemplate($feed->title_template, (array) $item);
