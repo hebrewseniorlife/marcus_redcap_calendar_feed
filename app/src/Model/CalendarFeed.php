@@ -8,7 +8,8 @@ class CalendarFeed {
     public $title_template;
     public $description_template;
     public $location_template;
-    public $fields;
+    public $data_fields;
+    public $filter_fields;
     public $url;
 
     public const DEFAULT_KEY = "default";
@@ -23,6 +24,9 @@ class CalendarFeed {
         $this->title_template = CalendarFeed::DEFAULT_TITLE_TEMPLATE;
         $this->description_template = CalendarFeed::DEFAULT_DESCRIPTION_TEMPLATE;
         $this->location_template = CalendarFeed::DEFAULT_LOCATION_TEMPLATE;
+
+        $this->data_fields   = [];
+        $this->filter_fields = [];
     }
 
     public function setTemplates(string $titleTemplate = null, string $descriptionTemplate = null, string $locationTemplate = null){
@@ -32,5 +36,15 @@ class CalendarFeed {
 
         $this->description_template = (!empty($descriptionTemplate)) ? $descriptionTemplate : "";
         $this->location_template    = (!empty($locationTemplate)) ? $locationTemplate : "";
+
+        return $this;
+    }
+
+    public function setDataFields(? string $fields = ""){
+        if (strlen($fields) > 0){
+            $this->data_fields = explode(',', $fields);
+        }
+
+        return $this;
     }
 }

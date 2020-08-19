@@ -94,6 +94,7 @@ class ProjectService {
         foreach($settings as $setting){
             $feed = new CalendarFeed($setting['feed-key'], $setting['feed-name']);   
             $feed->setTemplates($setting['feed-title-template'], $setting['feed-description-template'], $setting['feed-location-template']);
+            $feed->setDataFields($setting['feed-data-fields']);
 
             $feeds[] = $feed;
         }

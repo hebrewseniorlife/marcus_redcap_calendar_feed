@@ -76,6 +76,13 @@
 					"required": false,
 					"default" : "N/A",
 					"type": "text"
+				},
+				{
+					"key": "feed-data-fields",
+					"name": "Custom Data Fields for Templates",
+					"required": false,
+					"default" : "N/A",
+					"type": "text"
 				}
 			]
 		},

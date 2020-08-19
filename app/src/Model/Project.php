@@ -37,4 +37,14 @@ class Project {
         }
         return null;
     }
+
+    public function getEvent(int $id) : ? array {
+        foreach($this->events as $event){
+            if ($event->event_id == $id){
+                return $event;
+            }
+        }
+        
+        return null;
+    }
 }

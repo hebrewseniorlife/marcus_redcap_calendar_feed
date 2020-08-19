@@ -25,10 +25,4 @@ class CalendarItem{
     public $title;
     public $desctiption;
     public $location;
-
-    /*
-        Contextual Data (for templates)
-    */
-    public $data;
-
 }

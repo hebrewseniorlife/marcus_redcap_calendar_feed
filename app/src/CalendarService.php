@@ -3,7 +3,7 @@
 use Model\CalendarRequest as CalendarRequest;
 use Model\Calendar as Calendar;
 use TemplateEngine as TemplateEngine;
-
+use REDCap as REDCap;
 use ClanCats\Hydrahon\Builder as Builder;
 use ClanCats\Hydrahon\Query\Sql\Func as Func;
 
@@ -110,7 +110,8 @@ class CalendarService {
             // Get the the various calendar statuses and the correspoinding feed (default)
             $statuses = $request->project->statuses;
             $feed     = $request->project->getFeed($request->feed);  
-            
+
+            $data = $this->getContextData($calendar->items, $feed->data_fields);
             // For each of the calendar items
             foreach($calendar->getItems() as $item){
                 // Assign the status name (Due Date, Completed, etc.)
@@ -123,14 +124,50 @@ class CalendarService {
                     $item->forms = array_column($forms, 'form_name');
                 }
 
+                $context = array_merge((array) $item, [ 'data' => $data[$item->record] ]);
+
                 // Format the title, description, etc.
-                $item->title        = TemplateEngine::renderTemplate($feed->title_template, (array) $item);
-                $item->description  = TemplateEngine::renderTemplate($feed->description_template, (array) $item);
-                $item->location     = TemplateEngine::renderTemplate($feed->location_template, (array) $item);
+                $item->title        = TemplateEngine::renderTemplate($feed->title_template, $context);
+                $item->description  = TemplateEngine::renderTemplate($feed->description_template, $context);
+                $item->location     = TemplateEngine::renderTemplate($feed->location_template, $context);
             }
         }
         
         return $calendar;
+    }
+
+    public function getContextData(array $calendarItems, array $fields) : array{
+        // If no items or extra fields are defined then don't call the REDCAP API
+        if (count($calendarItems) == 0 || count($fields) == 0){
+            return [];
+        }
+
+        // Get the uniques records in the calendar data set...
+        $records = array_values(array_unique(array_column($calendarItems, "record")));
+
+        // Using REDCap API, get the data corresponding to the fields of interest (PID assumes current project)
+        $data = REDCap::getData([
+                'records'  => $records,
+                'fields'   => $fields
+            ]);
+
+        // Flatten the data, using the last-known value as the default
+        foreach($data as $record_id => $record){
+            foreach($record as $event_id => $event){
+                // Traverse only the event_id indexed fields
+                if (is_numeric($event_id) > 0){                   
+                    // For each unique field defined in the event
+                    foreach($event as $field => $value){
+                        // If the field has a value (or no value exists) then promote it to the root of the record
+                        if ($data[$record_id][$field] == null || strlen($value) > 0){
+                            $data[$record_id][$field] = $value;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $data;
     }
 
     public function getEventForms(int $event_id) : array {
