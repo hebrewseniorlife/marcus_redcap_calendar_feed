@@ -58,21 +58,21 @@
 				},
 				{
 					"key": "feed-title-template",
-					"name": "Title Field: Twig Temlate",
+					"name": "Title Field: Twig Template",
 					"required": true,
 					"default" : "{{ record }} @ {{ event_descrip }}",
 					"type": "text"
 				},
 				{
 					"key": "feed-description-template",
-					"name": "Description Field: Twig Temlate",
+					"name": "Description Field: Twig Template",
 					"required": false,
 					"default" : "Record: {{ record }}, Event: {{ event_descrip }}, Forms: {{ forms|join(', ')}}{{ notes|length > 0 ? ', Notes: ' ~ notes : '' }}",
 					"type": "textarea"
 				},
 				{
 					"key": "feed-location-template",
-					"name": "Location Field: Twig Temlate",
+					"name": "Location Field: Twig Template",
 					"required": false,
 					"default" : "N/A",
 					"type": "text"
