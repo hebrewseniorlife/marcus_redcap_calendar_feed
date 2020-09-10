@@ -1,7 +1,9 @@
 <?php
 namespace Marcus\CalendarFeed\ExternalModule;
 
-
+/**
+ * ExternalModule  - (required) Abstract implementation of REDCap module
+ */
 class ExternalModule extends \ExternalModules\AbstractExternalModule {
 	public function __construct() {
 		parent::__construct();
