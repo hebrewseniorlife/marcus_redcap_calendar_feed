@@ -5,10 +5,33 @@ namespace Model;
 use Model\CalendarFilter as CalendarFilter;
 use Model\Project as Project;
 
-class CalendarRequest {
-    public $project;
-    public $filter;
-    public $format;
+/**
+ * CalendarRequest  - Represents the context of a request for a calendar (project, filter params, format, etc.)
+ */
+class CalendarRequest {    
+    /**
+     * project
+     *
+     * @var Project
+     */
+    public $project;    
+    /**
+     * filter
+     *
+     * @var CalendarFilter
+     */
+    public $filter;    
+    /**
+     * format
+     *
+     * @var string
+     */
+    public $format;    
+    /**
+     * feed
+     *
+     * @var string
+     */
     public $feed;
 
     public const DEFAULT_FEED   = "default";

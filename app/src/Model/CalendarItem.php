@@ -2,6 +2,9 @@
 
 namespace Model;
 
+/**
+ * CalendarItem  - Represents a single scheduled calendar event in REDCap
+ */
 class CalendarItem{
     /*
         REDCap SQL Fields
@@ -23,6 +26,6 @@ class CalendarItem{
         Calendar Fields
     */
     public $title;
-    public $desctiption;
+    public $description;
     public $location;
 }

@@ -2,14 +2,58 @@
 
 namespace Model;
 
-class CalendarFeed {
+/**
+ * CalendarFeed  - Basic attributes that correspond to a feed (iCal, CSV, etc.) of calendar data 
+ */
+class CalendarFeed {    
+    /**
+     * key
+     *
+     * @var string
+     */
     public $key;
-    public $name;
-    public $title_template;
-    public $description_template;
-    public $location_template;
-    public $data_fields;
-    public $filter_fields;
+        
+    /**
+     * name
+     *
+     * @var string
+     */
+    public $name;    
+    /**
+     * title_template
+     *
+     * @var string
+     */
+    public $title_template;    
+    /**
+     * description_template
+     *
+     * @var string
+     */
+    public $description_template;    
+    /**
+     * location_template
+     *
+     * @var string
+     */
+    public $location_template;    
+    /**
+     * data_fields
+     *
+     * @var string[]
+     */
+    public $data_fields;    
+    /**
+     * filter_fields
+     *
+     * @var string[]
+     */
+    public $filter_fields;    
+    /**
+     * url
+     *
+     * @var string
+     */
     public $url;
 
     public const DEFAULT_KEY = "default";
@@ -28,7 +72,15 @@ class CalendarFeed {
         $this->data_fields   = [];
         $this->filter_fields = [];
     }
-
+    
+    /**
+     * setTemplates
+     *
+     * @param  string $titleTemplate
+     * @param  string $descriptionTemplate
+     * @param  string $locationTemplate
+     * @return void
+     */
     public function setTemplates(string $titleTemplate = null, string $descriptionTemplate = null, string $locationTemplate = null){
         if (isset($titleTemplate)){
             $this->title_template = $titleTemplate;
@@ -39,7 +91,13 @@ class CalendarFeed {
 
         return $this;
     }
-
+    
+    /**
+     * setDataFields
+     *
+     * @param  string $fields
+     * @return void
+     */
     public function setDataFields(? string $fields = ""){
         if (strlen($fields) > 0){
             $this->data_fields = explode(',', $fields);

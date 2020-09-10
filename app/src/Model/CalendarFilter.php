@@ -1,19 +1,43 @@
 <?php
-/**
- * CalendarFilter.php
- *
- */
 
 namespace Model;
 
 use SystemDate as SystemDate;
 
+/**
+ * CalendarFilter - Basic parameters to filter calendar data
+ */
 class CalendarFilter {
-    public $events  = [];
-    public $arms    = [];    
-    public $records = [];    
-    public $status  = -1;
-    public $month   = null;
+    public $events  = [];    
+    /**
+     * arms
+     *
+     * @var string[]
+     */
+    public $arms    = [];        
+    /**
+     * records
+     *
+     * @var string[]
+     */
+    public $records = [];        
+    /**
+     * status
+     *
+     * @var int
+     */
+    public $status  = -1;    
+    /**
+     * month
+     *
+     * @var int
+     */
+    public $month   = null;    
+    /**
+     * year
+     *
+     * @var int
+     */
     public $year    = null;
 
     // public $fields = array();

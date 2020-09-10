@@ -5,26 +5,26 @@ namespace Model;
 use Model\CalendarItem as CalendarItem;
 
 /**
- * Calendar
+ * Calendar  
  */
 class Calendar{    
     /**
      * filter
      *
-     * @var mixed
+     * @var CalendarFeed
      */
     public $filter;    
     /**
      * items
      *
-     * @var array
+     * @var CalendarItem[]
      */
     public $items = [];
         
     /**
      * getItems
      *
-     * @return array
+     * @return CalendarItem[]
      */
     public function getItems(){
         return $this->items;
@@ -55,7 +55,7 @@ class Calendar{
     /**
      * __construct
      *
-     * @param  mixed $filter
+     * @param  CalendarFilter $filter
      * @return void
      */
     public function __construct($filter){
