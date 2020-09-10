@@ -3,19 +3,39 @@
 use Exception;
 use JsonSerializable;
 
+/**
+ * ValidationException - Custom exception to handle data validations
+ */
 class ValidationException extends Exception implements JsonSerializable 
 {
-    // Redefine the exception so message isn't optional
+    
+    /**
+     * __construct
+     *
+     * @param  mixed $message
+     * @param  mixed $code
+     * @param  mixed $previous
+     * @return void
+     */
     public function __construct($message, $code = 0, Exception $previous = null) {
         parent::__construct($message, $code, $previous);
     }
-
-    // custom string representation of object
-    public function __toString() {
+    
+    /**
+     * __toString
+     *
+     * @return string
+     */
+    public function __toString() : string {
         return $this->message;
     }
-
-    public function jsonSerialize() {
+    
+    /**
+     * jsonSerialize
+     *
+     * @return array
+     */
+    public function jsonSerialize() : array {
         return [ "message" => $this->message];
     }
 }

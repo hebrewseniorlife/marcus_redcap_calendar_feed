@@ -1,7 +1,18 @@
 <?php
 
+/**
+ * SystemDate
+ * 
+ * Utility class for DateTime operations
+ */
 class SystemDate{
-    public static function getMonths(){
+    
+    /**
+     * getMonths - generates a list of named months by a zero-based index
+     *
+     * @return array
+     */
+    public static function getMonths() : array {
         return array(
                 1 => "January"
                 , 2 => "February"
@@ -16,12 +27,26 @@ class SystemDate{
                 , 11 => "November"
                 , 12 => "December");
     }
+        
     
-    public static function getCurrentMonth(){
+    /**
+     * getCurrentMonth - Returns the current named month
+     *
+     * @return string
+     */
+    public static function getCurrentMonth() : string {
         return date("n");
     }
-    
-    public static function getYearRange(string $start = null, string $stop = null, int $bounds = 10){
+        
+    /**
+     * getYearRange - returns an array of years (within range) based on the current year
+     *
+     * @param  mixed $start
+     * @param  mixed $stop
+     * @param  mixed $bounds
+     * @return array
+     */
+    public static function getYearRange(string $start = null, string $stop = null, int $bounds = 10) : array {
         $currentYear = SystemDate::getCurrentYear();
 
         if (!isset($start, $stop)){
@@ -36,8 +61,13 @@ class SystemDate{
         
         return $years;
     }
-
-    public static function getCurrentYear(){
+    
+    /**
+     * getCurrentYear - Returns the current named year
+     *
+     * @return string
+     */
+    public static function getCurrentYear() : string {
         return date("Y");
     }
 }

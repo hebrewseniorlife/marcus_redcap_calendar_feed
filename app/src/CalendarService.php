@@ -7,16 +7,29 @@ use REDCap as REDCap;
 use ClanCats\Hydrahon\Builder as Builder;
 use ClanCats\Hydrahon\Query\Sql\Func as Func;
 
-
-
+/**
+ * CalendarService
+ */
 class CalendarService {
     protected $module;
-
+    
+    /**
+     * __construct
+     *
+     * @param  mixed $module
+     * @return void
+     */
     function __construct(object $module)
     {
         $this->module = $module;
     }
-
+    
+    /**
+     * getCalendar - Gets the raw calendar data from the REDCap database based on the request provided
+     *
+     * @param  mixed $request
+     * @return Calendar
+     */
     function getCalendar(CalendarRequest $request) : Calendar{
         $sql = new Builder('mysql', [$this, 'getCalendarData']);
 
@@ -87,7 +100,15 @@ class CalendarService {
 
         return $calendar;
     }
-
+    
+    /**
+     * getCalendarData - Hellper function, executes a PDO::Class query based on the specified SQL 
+     *
+     * @param  mixed $query
+     * @param  mixed $queryString
+     * @param  mixed $queryParameters
+     * @return array
+     */
     function getCalendarData($query, $queryString, $queryParameters) : array      
     {
         $data = [];
@@ -100,8 +121,14 @@ class CalendarService {
         }
         return $data;
     }
-
-    public function getFormattedCalendar(CalendarRequest $request){
+    
+    /**
+     * getFormattedCalendar - Returns a properly-fomatted Calendar based on the Request provided
+     *
+     * @param  mixed $request
+     * @return Calendar
+     */
+    public function getFormattedCalendar(CalendarRequest $request) : Calendar{
         // Get the basic calendar data from REDCap....
         $calendar = $this->getCalendar($request);
         
@@ -135,7 +162,14 @@ class CalendarService {
         
         return $calendar;
     }
-
+    
+    /**
+     * getContextData
+     *
+     * @param  mixed $calendarItems
+     * @param  mixed $fields
+     * @return array
+     */
     public function getContextData(array $calendarItems, array $fields) : array{
         // If no items or extra fields are defined then don't call the REDCAP API
         if (count($calendarItems) == 0 || count($fields) == 0){
@@ -169,7 +203,13 @@ class CalendarService {
 
         return $data;
     }
-
+    
+    /**
+     * getEventForms - Get a list for events and form from REDCap
+     *
+     * @param  mixed $event_id
+     * @return array
+     */
     public function getEventForms(int $event_id) : array {
         $sql   = new Builder('mysql', [$this, 'fetchAll']);
         $query = $sql->table('redcap_events_forms', 'ef')->select([
@@ -180,8 +220,16 @@ class CalendarService {
 
         return $query->execute();
     }
-
-    public function fetchAll($query, $queryString, $queryParameters) {
+    
+    /**
+     * fetchAll - Fetches results of PDO query using module
+     *
+     * @param  mixed $query
+     * @param  mixed $queryString
+     * @param  mixed $queryParameters
+     * @return array
+     */
+    public function fetchAll($query, $queryString, $queryParameters) : array {
         $data = [];
         $results = $this->module->query($queryString, $queryParameters);
         if ($results->num_rows > 0){

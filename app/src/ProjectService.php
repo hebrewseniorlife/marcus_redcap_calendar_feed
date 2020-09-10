@@ -5,6 +5,9 @@ use Model\Project as Project;
 use Model\CalendarFeed as CalendarFeed;
 use Model\CalendarLink as CalendarLink;
 
+/**
+ * ProjectService - Service class for accessing project-level meatada from REDCap
+ */
 class ProjectService {
     protected $module;
     protected $odm;

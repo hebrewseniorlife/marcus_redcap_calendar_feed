@@ -7,6 +7,9 @@ use League\Uri\QueryString as QueryString;
 use League\Uri\UriModifier as UriModifier;
 use League\Uri\Uri as Uri;
 
+/**
+ * UrlBuilder - Class for generating properly-formatted URLs for the module
+ */
 class UrlBuilder {
     protected $module;
 
@@ -14,12 +17,24 @@ class UrlBuilder {
     public const DEFAULT_FEED       = "default";
     public const DEFAULT_PAGE       = "index.php";
     public const DEFAULT_BASE_URI   = APP_PATH_WEBROOT.'ExternalModules/';
-
+    
+    /**
+     * __construct
+     *
+     * @param  mixed $module
+     * @return void
+     */
     function __construct($module)
     {
         $this->module = $module;
     }
-
+    
+    /**
+     * createFeedUrl
+     *
+     * @param  mixed $feed
+     * @return void
+     */
     public function createFeedUrl(CalendarFeed $feed){
         $pageUrl    = $this->module->getUrl(UrlBuilder::DEFAULT_PAGE);
         $pageUri    = Uri::createFromString($pageUrl);
@@ -33,9 +48,14 @@ class UrlBuilder {
 
         return UriModifier::appendQuery($pageUri, $queryString);
     }
-
+    
+    /**
+     * createLinkUrl
+     *
+     * @param  mixed $link
+     * @return void
+     */
     public function createLinkUrl(CalendarLink $link){
-        // $page       = ($link->access_level == "public") ? "public.php" : UrlBuilder::DEFAULT_PAGE;
         $pageUrl    = $this->module->getUrl("public.php", true, true);
         $pageUri    = Uri::createFromString($pageUrl);
         
@@ -47,8 +67,15 @@ class UrlBuilder {
 
         return UriModifier::appendQuery($pageUri, $queryString);
     }
-
-    public function createExportUrl(CalendarRequest $request, string $format = "ical") : string{
+    
+    /**
+     * createExportUrl
+     *
+     * @param  mixed $request
+     * @param  mixed $format
+     * @return string
+     */
+    public function createExportUrl(CalendarRequest $request, string $format = "ical") : string {
         $pageUrl    = $this->module->getUrl(UrlBuilder::DEFAULT_PAGE);
         $pageUri    = Uri::createFromString($pageUrl);
         

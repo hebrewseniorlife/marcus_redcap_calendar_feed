@@ -10,6 +10,9 @@ use ValidationException as ValidationException;
 use League\Uri\QueryString as QueryString;
 use Symfony\Component\HttpFoundation\Request as Request;
 
+/**
+ * ModelFactory - Factory class for creating various module Model classes
+ */
 class ModelFactory {
     protected $module;
     protected $projectService;
@@ -70,7 +73,13 @@ class ModelFactory {
 
         return $calendarRequest;
     }
-
+    
+    /**
+     * createProject - Crreates Project object based on the HTTP Request proided
+     *
+     * @param  mixed $request
+     * @return Project
+     */
     function createProject(Request $request) : Project {
         $project = $this->projectService->getProject($request->query->get("pid", -1));
 
@@ -88,7 +97,13 @@ class ModelFactory {
 
         return $project;
     }
-
+    
+    /**
+     * createFilter  - Creates a CaldendarFilter object based on the HTTP params provided
+     *
+     * @param  mixed $params
+     * @return CalendarFilter
+     */
     function createFilter(array $params) : CalendarFilter {
         // Extract the participant records...
         $records = ($params['records'] != null) ? explode(',', $params['records']) : [];

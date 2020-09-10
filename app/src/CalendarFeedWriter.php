@@ -8,8 +8,16 @@ use Eluceo\iCal\Component\Event as vEvent;
 use Eluceo\iCal\Component\Timezone as vTimezone;
 use DateTime;
 
-
-class CalendarFeedWriter {
+/**
+ * CalendarFeedWriter - Class provides functions to trasform Calendars into various formats
+ */
+class CalendarFeedWriter {    
+    /**
+     * createCsv - Creates a CSV-formatted string based on the Calendar provided
+     *
+     * @param  mixed $calendar
+     * @return string
+     */
     public function createCsv(Calendar $calendar) : string {
         ob_start();
         
@@ -74,14 +82,17 @@ class CalendarFeedWriter {
         
         return ob_get_clean();
     }
-
+    
+    /**
+     * createICal  -  Creates a iCAL-formatted string based on the Calendar provided
+     *
+     * @param  mixed $calendar
+     * @param  mixed $project
+     * @return string
+     */
     public function createICal(Calendar $calendar, Project $project) : string {
-        // $timezoneName = date_default_timezone_get();
-
         $vCalendar = new vCalendar($project->title);
         $vCalendar->setName($project->title);
-        // $vCalendar->setTimezone($timezoneName);
-
 
         foreach($calendar->items as $item){
             $uniqueId = $item->cal_id.'_'.$item->record.'_'.$item->event_id;

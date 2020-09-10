@@ -1,11 +1,12 @@
 <?php
-/**
- * Calendar.php
- */
+
 namespace Model;
 
 use Model\CalendarItem as CalendarItem;
 
+/**
+ * Calendar
+ */
 class Calendar{    
     /**
      * filter
