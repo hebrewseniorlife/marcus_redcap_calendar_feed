@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Request as Request;
 use Symfony\Component\HttpFoundation\Response as Response;
 use Symfony\Component\HttpFoundation\HeaderUtils as HeaderUtils;
 
+/**
+ * AppController - Kernel for handling HTTP requests via standard REDCap External Module route
+ */
 class AppController {
     protected $module;
     protected $template;
@@ -23,7 +26,14 @@ class AppController {
         $this->template = new TemplateEngine($module->getModulePath()."app/resources/templates/");
         $this->factory  = new ModelFactory($module);
     }
-
+    
+    /**
+     * createContext
+     *
+     * @param  mixed $name
+     * @param  mixed $additional
+     * @return void
+     */
     function createContext(string $name, array $additional = []){
         $context = array(
             "module" => array(
@@ -45,7 +55,14 @@ class AppController {
 
         return array_merge($context, $additional);
     }
-
+    
+    /**
+     * view
+     *
+     * @param  mixed $request
+     * @param  mixed $response
+     * @return Response
+     */
     function view(Request $request, Response $response) : Response { 
         $calendarRequest = $this->factory->createCalendarRequestByQuery($request);
 
@@ -73,7 +90,14 @@ class AppController {
 
         return $response;
     }
-
+    
+    /**
+     * export
+     *
+     * @param  mixed $request
+     * @param  mixed $response
+     * @return Response
+     */
     function export(Request $request, Response $response) : Response {
         $calendarRequest = $this->factory->createCalendarRequestByQuery($request);
 
