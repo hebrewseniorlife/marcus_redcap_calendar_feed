@@ -12,13 +12,13 @@ This module uses the calendar events generated and stored within the REDCap data
 2. Description - Body attribute of Outlook/Google Calendar event
 3. Location - Location attribute of Outlook/Google Calendar event
 
-There are two major concepts in this module and must be configure at the project level to faciliate generating data and making them available publically.
+There are two major concepts in this module, and they must be defined at the project level to generate exports and make the data available publically.  Further description of each is provided below.
 1. Calendar Feed(s)
 2. Calendar Link(s)
 ### Calendar Feed
 A calendar feed represents a customized view of all of the scheduled events in the system.  The contents of a feed may be filtered and downloaded into a variety of formats.  Out of the box all projects have a "default" feed, which corresponds to a simple display of scheduling data.  Most projects will create at least one custom feed.
 
-A feed has the following properties.  The custom feed contains three specific templated attributes (title, description and location) that correspond directly to fields found in an iCal (Outlook/Google) feed.   
+A feed has the following properties.  The custom feed contains three specific templated attributes (title, description and location) that correspond directly to fields found in an iCal (Outlook/Google) file.   
 
 | Property | Type   | Description                      | Example          |
 |----------|--------|----------------------------------|------------------|
@@ -29,7 +29,7 @@ A feed has the following properties.  The custom feed contains three specific te
 | location_template      | string | Twig template that generates location field of iCal/Outlook event (may be blank) | ``` {{clinicname}} ``` |
 | data_fields      | string | Comma-separated list of REDCap fields to be included in the twig template (may be blank) | ``` firstname,lastname,clinicname,dob ``` |
 ### Calendar Feed Link
-Calendar Feeds are not automatically accessible outside of REDCap sessions. The project administrator must explicitly define a *Calendar Link* to make the data available.  All link requests are performed with NOAUTH security context.
+Calendar Feeds are not automatically accessible outside of REDCap sessions. The project administrator must explicitly define a *Calendar Link* to make the data (iCal, JSON, CSV) available outside of REDCap.  All link requests are performed with NOAUTH security context.
 
 > NOTE: It is possible that a project may define one or multiple feeds, but never use links to expose the data.  For example, feed data may be downloaded and imported manually into a Google Calendar.
 
@@ -48,8 +48,8 @@ A link is defined by the following properties.
 REDCap administrators should consider the following when enabling the module.
 
 * This module works only for longitudinal projects.  Singleton REDCap projects are not supported.
-* Public link feeds have *no security contect*.  Althought the details of the query are hidden from the feed results; the query and subsequent return data set are executed without authentication or authorization. Public links should be used causiously and scruitenized appropriately. 
-  * PHI should not be included in public links.  If PHI is included then the link should be proxied with an appropriate basic authentication schema.  
+* Public link feeds have *no security contect*.  Althought the details of the query are hidden from the feed results; the query and subsequent return data set are executed without authentication or authorization. Public links should be used causiously and scrutinized appropriately. 
+  * PHI should not be included in feeds used with public links.  If PHI is included then the link should be proxied with an appropriate basic authentication schema.  
   * Public link feeds inherit the TLS/SSL settings of the parent REDCap installation and Web server settings
    
 ## Requirements
@@ -113,4 +113,9 @@ See Twig Web site for syntax documentation.  When generating a calendar feed ite
 TBD
 
 ## Screenshots
-TBD
+### REDCap (Default View)
+![View](docs/view.png)
+### iCAL Export
+![iCal](docs/ical.png)
+### Outlook (Internet Calendar) Import
+![Outlook](docs/outlook.png)
