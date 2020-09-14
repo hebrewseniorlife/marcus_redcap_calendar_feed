@@ -63,8 +63,9 @@ class CalendarService {
                 $query->where('a.arm_num', $filter->arms[0]);
             }
             
-            if (count($filter->events) > 0){
-                $query->where('c.event_id', $filter->events[0]);
+            $events = $request->project->getEvents($filter->events);
+            if (count($events) > 0){
+                $query->whereIn('c.event_id', array_column($events, "event_id"));
     		}
     
             if ($filter->status === null){
@@ -112,7 +113,7 @@ class CalendarService {
     function getCalendarData($query, $queryString, $queryParameters) : array      
     {
         $data = [];
-        
+
         $results = $this->module->query($queryString, $queryParameters);
         if ($results->num_rows > 0){
             while($item = $results->fetch_object('Model\\CalendarItem')){

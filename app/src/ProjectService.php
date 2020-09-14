@@ -2,6 +2,7 @@
 
 use REDCap as REDCap;
 use Model\Project as Project;
+use Model\StudyEvent as StudyEvent;
 use Model\CalendarFeed as CalendarFeed;
 use Model\CalendarLink as CalendarLink;
 
@@ -66,12 +67,10 @@ class ProjectService {
         if ($metaData){
             foreach($metaData->StudyEventDef as $index => $studyEventDef){
                 $uniqueName = (string) $studyEventDef->attributes('redcap', true)->{'UniqueEventName'};
+                $eventId    = REDCap::getEventIdFromUniqueEvent($uniqueName);
+                $name       = (string) $studyEventDef->attributes()->{'Name'};
 
-                $events [] = [
-                    'name' => (string) $studyEventDef->attributes()->{'Name'},
-                    'unique_name' => $uniqueName,
-                    'event_id' => REDCap::getEventIdFromUniqueEvent($uniqueName)
-                ];
+                $events [] = new StudyEvent($eventId, $name, $uniqueName);
             }
         }
         return $events;

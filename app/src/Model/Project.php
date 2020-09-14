@@ -4,6 +4,7 @@ namespace Model;
 
 use Model\CalendarFeed as CalendarFeed;
 use Model\CalendarLink as CalendarLink;
+use Model\StudyEvent as StudyEvent;
 
 /**
  * Project - Project context required to create a calendar feed
@@ -24,7 +25,7 @@ class Project {
     /**
      * events
      *
-     * @var string[]
+     * @var StudyEvent[]
      */
     public $events = [];    
     /**
@@ -102,5 +103,24 @@ class Project {
         }
         
         return null;
+    }
+
+    
+    /**
+     * getEvents
+     *
+     * @param  array $names
+     * @return StudyEvent[]
+     */
+    public function getEvents(array $uniqueNames) : ? array {
+        $results = [];
+        foreach($uniqueNames as $name){
+            foreach($this->events as $event){
+                if ($event->unique_name == $name){
+                   array_push($results, $event);
+                }
+            }
+        }
+        return $results;
     }
 }

@@ -41,8 +41,8 @@
             {% if project.events %}
                 {% for event in project.events %}
                     <option 
-                      value="{{ event.event_id }}"
-                      {{ event.event_id == filter.events[0] ? 'selected' : '' }}>{{ event.name }}</option>
+                      value="{{ event.unique_name }}"
+                      {{ event.unique_name == filter.events[0] ? 'selected' : '' }}>{{ event.name }}</option>
                 {% endfor %}         
             {% endif %}
           </select>

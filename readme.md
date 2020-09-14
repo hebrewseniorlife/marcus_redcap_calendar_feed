@@ -64,7 +64,7 @@ The feed and link params accept the following HTTP querystring arguments.  These
 |----------|--------|----------------------------------|------------------|
 | feed      | string | Feed key as specified in the config | ``` feed=all_participants ``` |
 | arms      | array(int) | PHP array of arm numbers (as defined in REDCap) | ``` arms[]=1&arms[]=2 ``` |
-| events      | array(int) | PHP array of event ID numbers | ``` events[]=165&events[]=123 ``` |
+| events      | array(int) | PHP array of unqiue Event names (as defined in REDCap) | ``` events[]=baseline_arm_2&events[]= ``` |
 | status      | number | Number corresponding to scheduling event status (see list below) | ``` status=2 ``` |
 | month      | numeric | Month (0=Jan...11=Dec)  | ``` month=0 ``` |
 | year      | numeric | Four-digit calendar year  | ``` year=2019 ``` |
