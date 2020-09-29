@@ -119,3 +119,12 @@ TBD
 ![iCal](docs/ical.png)
 ### Outlook (Internet Calendar) Import
 ![Outlook](docs/outlook.png)
+
+## Development Notes
+The project uses NodeJS and Grunt to build the source code and package distributions for release to the REDCap community.
+See the NodeJS package for the NPM build command. See the gruntfile for the specific folder and file release package details. 
+* Grunt uses the composer.js version number and package name for the REDCap zip file 
+
+```
+c:/> npm run build
+```
