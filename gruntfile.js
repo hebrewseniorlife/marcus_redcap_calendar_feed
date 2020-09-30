@@ -13,7 +13,7 @@ module.exports = function(grunt) {
                 mode: 'zip'
             },
             files: [
-                { src: ['./app/**', './public/**', './*.php', './config.js']  },
+                { src: ['./app/**', './public/**', './*.php', './config.json']  },
                 { src: ['./composer.*', './vendor/**']  },
                 { src: ['LICENSE', './*.md', './docs/**']  },
             ]
