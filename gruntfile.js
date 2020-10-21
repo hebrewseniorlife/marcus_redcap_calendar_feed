@@ -13,9 +13,9 @@ module.exports = function(grunt) {
                 mode: 'zip'
             },
             files: [
-                { src: ['./app/**', './public/**', './*.php', './config.json']  },
-                { src: ['./composer.*', './vendor/**']  },
-                { src: ['LICENSE', './*.md', './docs/**']  },
+                { src: ['./app/**', './public/**', './*.php', './config.json'], dest: `/${package}/` },
+                { src: ['./composer.*', './vendor/**'], dest: `/${package}/`  },
+                { src: ['LICENSE', './*.md', './docs/**'], dest: `/${package}/`  },
             ]
         }
     }
@@ -25,6 +25,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-compress');
   
     // Default task(s).
-    grunt.registerTask('default', ['compress:build']);
+    grunt.registerTask('default', ['build']);
+    grunt.registerTask('build', ['compress:build']);
   
   };
