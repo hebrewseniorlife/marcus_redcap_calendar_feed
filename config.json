@@ -7,7 +7,7 @@
 
 	"documentation": "README.md",
 
-	"framework-version" : 5,
+	"framework-version" : 15,
 
 	"authors": [
 		{
@@ -152,9 +152,9 @@
 	"crons": [],
 
 	"compatibility": {
-		"php-version-min": "7.2.0",
+		"php-version-min": "8.0.0",
 		"php-version-max": "",
-		"redcap-version-min": "10.0.1",
+		"redcap-version-min": "15.0.0",
 		"redcap-version-max": ""
 	}
 }

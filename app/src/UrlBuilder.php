@@ -4,7 +4,7 @@ use Model\CalendarRequest as CalendarRequest;
 use Model\CalendarFeed as CalendarFeed;
 use Model\CalendarLink as CalendarLink;
 use League\Uri\QueryString as QueryString;
-use League\Uri\UriModifier as UriModifier;
+use League\Uri\Modifier as Modifier;
 use League\Uri\Uri as Uri;
 
 /**
@@ -46,7 +46,7 @@ class UrlBuilder {
 
         $queryString  = QueryString::build($params);
 
-        return UriModifier::appendQuery($pageUri, $queryString);
+        return Modifier::from($pageUri)->appendQuery($queryString);
     }
     
     /**
@@ -65,7 +65,7 @@ class UrlBuilder {
 
         $queryString  = QueryString::build($params);
 
-        return UriModifier::appendQuery($pageUri, $queryString);
+        return Modifier::from($pageUri)->appendQuery($queryString);
     }
     
     /**
@@ -117,7 +117,7 @@ class UrlBuilder {
         //     }
 
         $queryString    = QueryString::build($params);
-        $fullUri        = UriModifier::appendQuery($pageUri, $queryString);
+        $fullUri        = Modifier::from($pageUri)->appendQuery($queryString);
 
         return $fullUri;
     }

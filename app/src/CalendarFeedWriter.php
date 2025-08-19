@@ -3,10 +3,14 @@
 use Model\Calendar as Calendar;
 use Model\CalendarFeed as CalendarFeed;
 use Model\Project as Project;
-use Eluceo\iCal\Component\Calendar as vCalendar;
-use Eluceo\iCal\Component\Event as vEvent;
-use Eluceo\iCal\Component\Timezone as vTimezone;
-use DateTime;
+use Eluceo\iCal\Domain\Entity\Calendar as DomainCalendar;
+use Eluceo\iCal\Domain\Entity\Event as DomainEvent;
+use Eluceo\iCal\Domain\ValueObject\SingleDay;
+use Eluceo\iCal\Domain\ValueObject\Location;
+use Eluceo\iCal\Domain\ValueObject\Date;
+use Eluceo\iCal\Domain\ValueObject\TimeSpan;
+use Eluceo\iCal\Domain\ValueObject\DateTime;
+use Eluceo\iCal\Presentation\Factory\CalendarFactory;
 
 /**
  * CalendarFeedWriter - Class provides functions to trasform Calendars into various formats
@@ -52,6 +56,15 @@ class CalendarFeedWriter {
         
         foreach($calendar->items as $item){
             $eventDateTime = new \DateTime("$this->event_date $this->event_time");
+                        
+            $forms = [];
+            if (empty($item->forms)) {
+                $forms = [];
+            } elseif (is_string($item->forms)) {
+                $forms = explode(',', $item->forms);
+            } elseif (is_array($item->forms)) {
+                $forms = $item->forms;
+            }
 
             $row = [
                 $item->record,
@@ -63,7 +76,7 @@ class CalendarFeedWriter {
                 $item->event_time,
                 $eventDateTime->format("c"),
                 str_replace("\n", " ", $item->notes),
-                implode(", ", $item->forms),
+                implode(", ", $forms),
                 $item->title,
                 $item->description,
                 $item->location
@@ -91,37 +104,29 @@ class CalendarFeedWriter {
      * @return string
      */
     public function createICal(Calendar $calendar, Project $project) : string {
-        $vCalendar = new vCalendar($project->title);
-        $vCalendar->setName($project->title);
-
-        foreach($calendar->items as $item){
-            $uniqueId = $item->cal_id.'_'.$item->record.'_'.$item->event_id;
-
-            $vEvent = new vEvent($uniqueId);
-            $vEvent
+        $events = [];
+        foreach ($calendar->items as $item) {
+            $event = new DomainEvent();
+            $event = $event
                 ->setSummary($item->title)
                 ->setDescription($item->description)
-                ->setLocation($item->location);
-            
-            //$vEvent->setUseTimezone(true);
+                ->setLocation(new Location($item->location));
 
-            if (empty($item->event_time)){
-                $vEvent->setNoTime(true);
-                $startDateTime  = DateTime::createFromFormat('Y-m-d', $item->event_date);
-                $endDateTime    = DateTime::createFromFormat('Y-m-d', $item->event_date);
+            // Handle all-day vs timed events
+            if (empty($item->event_time)) {
+                $date = \DateTimeImmutable::createFromFormat('Y-m-d', $item->event_date);
+                $occurrence = new SingleDay(new Date($date));
+            } else {
+                $interval = new DateInterval('PT2H'); // This should be configurable
+                $startDateTime  = \DateTimeImmutable::createFromFormat('Y-m-d H:i', $item->event_date . ' ' . $item->event_time);
+                $endDateTime    = $startDateTime->add($interval);
+                $occurrence = new TimeSpan(new DateTime($startDateTime,false),  new DateTime($endDateTime, false));
             }
-            else{
-                $offset         = new DateInterval('PT1H');
-                $startDateTime  = DateTime::createFromFormat('Y-m-d H:i', $item->event_date.' '.$item->event_time);
-                $endDateTime    = DateTime::createFromFormat('Y-m-d', $item->event_date)->add($offset);
-            }
-
-            $vEvent->setDtStart($startDateTime);
-            $vEvent->setDtEnd($endDateTime);
-
-            $vCalendar->addComponent($vEvent);
+            $event = $event->setOccurrence($occurrence);
+            $events[] = $event;
         }
-
-        return $vCalendar->render();
+        $domainCalendar = new DomainCalendar($events);
+        $calendarComponent = (new CalendarFactory())->createCalendar($domainCalendar);
+        return (string) $calendarComponent;
     }
 }

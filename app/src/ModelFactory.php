@@ -111,13 +111,23 @@ class ModelFactory {
 
         $arms = $params['arms'];
         if (!is_array($arms)) {
-            $arms = (count(trim($arms)) > 0) ? explode(',', $arms) : [];
+            if ($arms == null || $arms == "") {
+                $arms = [];
+            } else {
+                // If it's a string, split it by commas
+                $arms = explode(',', $arms);
+            }
         }
         $arms = array_filter($arms);
 
         $events = $params['events'];
         if (!is_array($events)) {
-            $events = (count(trim($events)) > 0) ? explode(',', $events) : [];
+            if ($events == null || $events == "") {
+                $events = [];
+            } else {
+                // If it's a string, split it by commas
+                $events = explode(',', $events);
+            }
         }
         $events = array_filter($events);
         
