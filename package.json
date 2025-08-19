@@ -6,6 +6,6 @@
     "grunt-contrib-compress": "^1.6.0"
   },
   "scripts" : {
-    "build": "grunt default"
+    "build": "node node_modules\\grunt\\bin\\grunt default"
   }
 }
